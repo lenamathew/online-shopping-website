@@ -1,22 +1,328 @@
-# 🛒 ShopEase - Dynamic Online Shopping Website
+# 🛒 Online Shopping Website
 
-A fully functional, responsive online shopping website built with **Bootstrap 5**, **Material Design**, **JavaScript**, and **LocalStorage** as a database.
+A complete e-commerce website built with HTML, CSS, JavaScript, and Bootstrap 5. Features include product browsing, shopping cart functionality, checkout process, and admin management system.
 
-## 📋 Project Overview
+## 🌐 Live Demo
+Visit the live website: [https://lenamathew.github.io/online-shopping-website/](https://lenamathew.github.io/online-shopping-website/)
 
-**Submission Date:** November 28, 2025  
-**Submission Time:** 1:00 PM  
+## 📱 Features
+- **Responsive Design**: Mobile-first approach using Bootstrap 5
+- **Product Catalog**: Browse and search products
+- **Shopping Cart**: Add, remove, and update quantities
+- **Checkout System**: Complete order processing
+- **Admin Dashboard**: Product management (CRUD operations)
+- **User Authentication**: Admin login system
+- **Modern UI**: Clean design with earth-tone color palette
 
-This project is a complete e-commerce web application featuring user authentication, product management, shopping cart functionality, and full CRUD operations using LocalStorage.
+## 📋 Page Documentation
 
----
+### 🏠 **Main Pages**
 
-## 🚀 Features
+#### `shop.html` - Product Catalog
+- **Purpose**: Main shopping interface displaying available products
+- **Features**:
+  - Product grid layout with responsive cards
+  - Search functionality for products
+  - Add to cart functionality
+  - Admin login dropdown in navigation
+  - Product count display
+- **Bootstrap Components**: Navbar, Cards, Grid System, Buttons
+- **Material Icons**: Shopping bag, search, admin panel
 
-✅ **User Authentication**
-- Login and Registration system
-- Session management with LocalStorage
-- Admin and regular user roles
+#### `cart.html` - Shopping Cart
+- **Purpose**: View and manage items in shopping cart
+- **Features**:
+  - Display cart items with images and details
+  - Quantity controls (increase/decrease)
+  - Remove items functionality
+  - Cart total calculation
+  - Proceed to checkout button
+- **Bootstrap Components**: Container, Row/Col, Buttons, Cards
+- **Material Icons**: Shopping cart, add/remove, delete
+
+#### `checkout.html` - Order Processing
+- **Purpose**: Complete purchase with customer information
+- **Features**:
+  - Customer information form
+  - Billing and shipping address forms
+  - Order summary display
+  - Payment method selection (simulation)
+  - Form validation
+  - Order confirmation
+- **Bootstrap Components**: Forms, Input Groups, Cards, Buttons
+- **Material Icons**: Person, location, payment, check circle
+
+#### `order-confirmation.html` - Purchase Confirmation
+- **Purpose**: Display successful order confirmation
+- **Features**:
+  - Order summary with details
+  - Order number generation
+  - Customer information display
+  - Return to shop functionality
+- **Bootstrap Components**: Cards, Alerts, Buttons
+- **Material Icons**: Check circle, shopping bag
+
+### � **Admin Pages**
+
+#### `admin-dashboard.html` - Admin Control Panel
+- **Purpose**: Central hub for admin operations
+- **Features**:
+  - Quick statistics overview
+  - Navigation to product management
+  - Admin-only access control
+  - Dashboard cards with metrics
+- **Bootstrap Components**: Cards, Grid System, Buttons
+- **Material Icons**: Dashboard, inventory, analytics
+
+#### `manage-products.html` - Product Management
+- **Purpose**: CRUD operations for product inventory
+- **Features**:
+  - View all products in table format
+  - Edit product details
+  - Delete products with confirmation
+  - Add new products link
+  - Search and filter functionality
+- **Bootstrap Components**: Tables, Modals, Forms, Buttons
+- **Material Icons**: Edit, delete, add, search
+
+#### `add-product.html` - Add New Product
+- **Purpose**: Create new products for the catalog
+- **Features**:
+  - Product information form
+  - Image URL input
+  - Price and description fields
+  - Form validation
+  - Success/error feedback
+- **Bootstrap Components**: Forms, Input Groups, Alerts
+- **Material Icons**: Add, save, image
+
+#### `edit-product.html` - Edit Product Details
+- **Purpose**: Modify existing product information
+- **Features**:
+  - Pre-populated form with current data
+  - Update product details
+  - Image URL modification
+  - Save changes functionality
+- **Bootstrap Components**: Forms, Buttons, Alerts
+- **Material Icons**: Edit, save, cancel
+
+### 🛠 **Utility Pages**
+
+#### `initialize-products.html` - Data Setup
+- **Purpose**: Initialize default product data
+- **Features**:
+  - Load sample products into localStorage
+  - Reset product database
+  - Development/testing utility
+- **Bootstrap Components**: Buttons, Alerts
+- **Material Icons**: Refresh, database
+
+#### `debug-products.html` - Development Tools
+- **Purpose**: Debug and inspect product data
+- **Features**:
+  - View localStorage contents
+  - Clear all data
+  - Data validation tools
+- **Bootstrap Components**: Cards, Buttons
+- **Material Icons**: Bug report, clear all
+
+## 🔄 CRUD Operations
+
+### **Create (Add Products)**
+- **File**: `add-product.html`
+- **Method**: JavaScript form handling
+- **Storage**: localStorage
+- **Features**:
+  - Form validation for all required fields
+  - Unique ID generation
+  - Image URL validation
+  - Success confirmation
+
+### **Read (Display Products)**
+- **Files**: `shop.html`, `manage-products.html`
+- **Method**: JavaScript retrieval from localStorage
+- **Features**:
+  - Dynamic product rendering
+  - Search functionality
+  - Responsive grid display
+  - Real-time updates
+
+### **Update (Edit Products)**
+- **File**: `edit-product.html`
+- **Method**: JavaScript form pre-population and update
+- **Features**:
+  - Load existing product data
+  - Modify any product attribute
+  - Validation on update
+  - Confirmation messaging
+
+### **Delete (Remove Products)**
+- **File**: `manage-products.html`
+- **Method**: JavaScript with confirmation modal
+- **Features**:
+  - Confirmation dialog before deletion
+  - Immediate UI update
+  - Permanent removal from storage
+  - Success feedback
+
+## 🎨 Bootstrap 5 Elements Used
+
+### **Layout Components**
+- **Container/Container-fluid**: Responsive page containers
+- **Grid System (Row/Col)**: 12-column responsive layout
+- **Flexbox Utilities**: Alignment and distribution
+
+### **Navigation**
+- **Navbar**: Primary site navigation with brand
+- **Nav**: Secondary navigation elements
+- **Dropdown**: Admin menu in navigation
+
+### **Content**
+- **Cards**: Product displays, admin panels, forms
+- **Tables**: Product management data display
+- **Forms**: User input for checkout, admin functions
+- **Buttons**: CTAs, form submissions, navigation
+
+### **Components**
+- **Modals**: Confirmation dialogs, product details
+- **Alerts**: Success/error messages, notifications
+- **Input Groups**: Enhanced form inputs with icons
+- **Badge**: Status indicators, counts
+
+### **Utilities**
+- **Spacing (m-*, p-*)**: Margin and padding utilities
+- **Text utilities**: Alignment, color, typography
+- **Display utilities**: Show/hide, responsive display
+- **Color utilities**: Background and text colors
+
+## 🎯 Material Design Icons Used
+
+### **Navigation Icons**
+- `shopping_bag`: Brand logo, shopping theme
+- `home`: Homepage navigation
+- `admin_panel_settings`: Admin access
+
+### **Product Icons**
+- `search`: Product search functionality
+- `add_shopping_cart`: Add to cart buttons
+- `inventory_2`: Product management
+
+### **Cart Icons**
+- `shopping_cart`: Cart page, cart items
+- `add/remove`: Quantity controls
+- `delete`: Remove items from cart
+
+### **Admin Icons**
+- `dashboard`: Admin dashboard
+- `edit`: Edit product functionality
+- `delete_forever`: Delete operations
+- `add_circle`: Add new products
+
+### **UI Icons**
+- `check_circle`: Success confirmations
+- `error`: Error states
+- `refresh`: Reload/reset operations
+- `save`: Save operations
+
+## 🔐 Login/Registration Workflow
+
+### **Current Implementation**
+The website currently uses a simplified admin authentication system:
+
+#### **Admin Access**
+1. **Access Point**: Admin dropdown in main navigation
+2. **Login Trigger**: Click "Admin Login" in dropdown
+3. **Authentication**: JavaScript prompt for password
+4. **Validation**: Hardcoded password check (`admin123`)
+5. **Session**: Session-based access control
+6. **Redirect**: Successful login redirects to admin dashboard
+
+#### **Session Management**
+- **Storage**: sessionStorage for current session
+- **Key**: `adminLoggedIn` boolean flag
+- **Persistence**: Lasts until browser tab is closed
+- **Access Control**: All admin pages check authentication status
+
+#### **Admin Features Access**
+- **Protected Pages**: All admin-related pages check login status
+- **Redirect Logic**: Unauthenticated users redirected to shop
+- **Visual Indicators**: Admin-only elements hidden from regular users
+
+### **Workflow Steps**
+1. User clicks "Admin Login" in navigation
+2. JavaScript prompt requests password
+3. Password validated against hardcoded value
+4. Successful login sets session flag
+5. User redirected to admin dashboard
+6. All subsequent admin actions validated against session
+7. Logout clears session and redirects to shop
+
+### **Future Enhancements** (Not Implemented)
+- Database-backed user authentication
+- Role-based access control
+- Password encryption
+- User registration system
+- Email verification
+- Password reset functionality
+
+## 🚀 Getting Started
+
+### **Local Development**
+1. Clone the repository
+2. Open `shop.html` in a web browser
+3. Initialize products using `initialize-products.html`
+4. Start shopping or access admin features
+
+### **Admin Access**
+- Username: admin
+- Password: admin123
+
+### **File Structure**
+```
+├── shop.html              # Main product catalog
+├── cart.html              # Shopping cart
+├── checkout.html          # Order processing
+├── order-confirmation.html # Purchase confirmation
+├── admin-dashboard.html   # Admin control panel
+├── manage-products.html   # Product CRUD operations
+├── add-product.html       # Add new products
+├── edit-product.html      # Edit existing products
+├── css/
+│   ├── style.css          # Custom styling
+│   └── style-clean.css    # Alternative theme
+├── js/
+│   ├── auth.js            # Authentication logic
+│   ├── cart.js            # Shopping cart functions
+│   └── products.js        # Product management
+└── images/                # Product images directory
+```
+
+## 🛠 Technologies Used
+- **HTML5**: Semantic markup
+- **CSS3**: Custom styling with CSS variables
+- **JavaScript (ES6)**: Dynamic functionality
+- **Bootstrap 5**: Responsive framework
+- **Material Design Icons**: Modern iconography
+- **localStorage**: Client-side data persistence
+- **GitHub Pages**: Free hosting platform
+
+## 📱 Responsive Design
+- **Mobile First**: Optimized for mobile devices
+- **Breakpoints**: Bootstrap's responsive breakpoint system
+- **Touch Friendly**: Large touch targets for mobile
+- **Cross Browser**: Compatible with modern browsers
+
+## 🎨 Color Scheme
+- **Primary**: Rich brown (#653420) - Professional and trustworthy
+- **Secondary**: Light taupe (#a78867) - Warm medium brown
+- **Accent**: Dark vanilla (#d3c2af) - Soft cream highlights
+- **Background**: Clean white (#FFFFFF) - Maximum contrast
+
+## 📄 License
+This project is open source and available under the MIT License.
+
+## 👨‍💻 Developer
+Created by Lena Mathew - [GitHub Profile](https://github.com/lenamathew)
 
 ✅ **Product Management (CRUD Operations)**
 - **Create:** Add new products (Admin only)
