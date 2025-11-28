@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Product Display Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product { border: 1px solid #ccc; margin: 10px; padding: 15px; width: 300px; display: inline-block; }
+        .product img { width: 100px; height: 80px; object-fit: cover; }
+        .price { color: #007bff; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Product Display Test</h1>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <button onclick="initAndLoad()">Initialize & Load Products</button>
+    <div id="status"></div>
+    <div id="products"></div>
+
+    <script>
+        // Product management functions (copied from products.js)
+        function initializeProducts() {
+            const products = localStorage.getItem('products');
+            if (!products) {
+                const defaultProducts = [
+                    {
+                        id: 1,
+                        name: 'Wireless Headphones',
+                        description: 'Premium noise-cancelling wireless headphones with 30-hour battery life',
+                        price: 129.99,
+                        image: 'https://via.placeholder.com/300x200/6200ea/ffffff?text=Headphones'
+                    },
+                    {
+                        id: 2,
+                        name: 'Smart Watch',
+                        description: 'Fitness tracking smartwatch with heart rate monitor and GPS',
+                        price: 249.99,
+                        image: 'https://via.placeholder.com/300x200/6200ea/ffffff?text=Smart+Watch'
+                    },
+                    {
+                        id: 3,
+                        name: 'Laptop Backpack',
+                        description: 'Water-resistant backpack with USB charging port and multiple compartments',
+                        price: 49.99,
+                        image: 'https://via.placeholder.com/300x200/6200ea/ffffff?text=Backpack'
+                    }
+                ];
+                localStorage.setItem('products', JSON.stringify(defaultProducts));
+                console.log('Products initialized in localStorage');
+            } else {
+                console.log('Products already exist in localStorage');
+            }
+        }
+
+        function getAllProducts() {
+            const products = localStorage.getItem('products');
+            return products ? JSON.parse(products) : [];
+        }
+
+        function clearStorage() {
+            localStorage.removeItem('products');
+            document.getElementById('status').innerHTML = '<p style="color: red;">Storage cleared!</p>';
+            document.getElementById('products').innerHTML = '';
+        }
+
+        function initAndLoad() {
+            // Clear any existing data
+            document.getElementById('products').innerHTML = '';
+            document.getElementById('status').innerHTML = '<p>Initializing...</p>';
+            
+            // Initialize products
+            initializeProducts();
+            
+            // Get products
+            const products = getAllProducts();
+            console.log('Retrieved products:', products);
+            
+            // Update status
+            document.getElementById('status').innerHTML = `<p style="color: green;">Found ${products.length} products!</p>`;
+            
+            // Display products
+            const container = document.getElementById('products');
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <img src="${product.image}" alt="${product.name}">
+                    <p>${product.description}</p>
+                    <div class="price">$${product.price}</div>
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+
+        // Auto-run on page load
+        window.addEventListener('DOMContentLoaded', initAndLoad);
+    </script>
+</body>
+</html>

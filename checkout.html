@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ShopEase</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <span class="material-icons align-middle">shopping_bag</span>
+                ShopEase
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="shop.html">
+                    <span class="material-icons align-middle">arrow_back</span> Back to Shop
+                </a>
+                <a class="nav-link" href="cart.html">
+                    <span class="material-icons align-middle">shopping_cart</span> Cart
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Checkout Progress -->
+    <section class="bg-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="checkout-progress">
+                            <span class="step active">1. Cart</span>
+                            <span class="step-arrow">→</span>
+                            <span class="step active">2. Checkout</span>
+                            <span class="step-arrow">→</span>
+                            <span class="step">3. Confirmation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Checkout Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Order Summary -->
+                <div class="col-lg-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <span class="material-icons align-middle">receipt_long</span>
+                                Order Summary
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="orderItems">
+                                <!-- Order items will be loaded here -->
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <strong>Subtotal:</strong>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Shipping:</span>
+                                <span id="shipping">$5.99</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Tax:</span>
+                                <span id="tax">$0.00</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <strong>Total:</strong>
+                                <strong id="total" class="text-primary">$0.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Checkout Form -->
+                <div class="col-lg-8">
+                    <form id="checkoutForm">
+                        <!-- Customer Information -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <span class="material-icons align-middle">person</span>
+                                    Customer Information
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Shipping Address -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <span class="material-icons align-middle">local_shipping</span>
+                                    Shipping Address
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="address" class="form-label">Street Address *</label>
+                                        <input type="text" class="form-control" id="address" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="city" class="form-label">City *</label>
+                                        <input type="text" class="form-control" id="city" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="state" class="form-label">State *</label>
+                                        <input type="text" class="form-control" id="state" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="zipCode" class="form-label">ZIP Code *</label>
+                                        <input type="text" class="form-control" id="zipCode" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Information -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <span class="material-icons align-middle">payment</span>
+                                    Payment Information
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    <span class="material-icons align-middle">info</span>
+                                    This is a demo checkout. No real payment will be processed.
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="cardNumber" class="form-label">Card Number *</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="expiryDate" class="form-label">Expiry Date *</label>
+                                        <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label">CVV *</label>
+                                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="cardName" class="form-label">Name on Card *</label>
+                                        <input type="text" class="form-control" id="cardName" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Actions -->
+                        <div class="d-flex justify-content-between">
+                            <a href="cart.html" class="btn btn-outline-secondary btn-lg">
+                                <span class="material-icons align-middle">arrow_back</span>
+                                Back to Cart
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <span class="material-icons align-middle">check_circle</span>
+                                Place Order ($<span id="finalTotal">0.00</span>)
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let orderData = {};
+        
+        // Load checkout data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            setupFormHandling();
+            prefillUserData();
+        });
+        
+        function loadOrderSummary() {
+            try {
+                // Get cart and products
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const products = JSON.parse(localStorage.getItem('products')) || [];
+                
+                if (cart.length === 0) {
+                    window.location.href = 'cart.html';
+                    return;
+                }
+                
+                const orderItemsContainer = document.getElementById('orderItems');
+                let subtotal = 0;
+                
+                orderItemsContainer.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const product = products.find(p => p.id === item.id);
+                    if (product) {
+                        const itemTotal = product.price * item.quantity;
+                        subtotal += itemTotal;
+                        
+                        orderItemsContainer.innerHTML += `
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <img src="${product.image}" alt="${product.name}" 
+                                         style="width: 40px; height: 40px; object-fit: cover;" class="rounded me-2">
+                                    <div>
+                                        <small class="fw-bold">${product.name}</small><br>
+                                        <small class="text-muted">Qty: ${item.quantity}</small>
+                                    </div>
+                                </div>
+                                <span class="fw-bold">$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        `;
+                    }
+                });
+                
+                // Calculate totals
+                const shipping = subtotal > 50 ? 0 : 5.99;
+                const tax = subtotal * 0.08; // 8% tax
+                const total = subtotal + shipping + tax;
+                
+                document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+                document.getElementById('shipping').textContent = shipping > 0 ? `$${shipping.toFixed(2)}` : 'FREE';
+                document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+                document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+                document.getElementById('finalTotal').textContent = total.toFixed(2);
+                
+                // Store order data
+                orderData = {
+                    items: cart.map(item => {
+                        const product = products.find(p => p.id === item.id);
+                        return {
+                            product: product,
+                            quantity: item.quantity,
+                            price: product.price,
+                            total: product.price * item.quantity
+                        };
+                    }),
+                    subtotal: subtotal,
+                    shipping: shipping,
+                    tax: tax,
+                    total: total
+                };
+                
+            } catch (error) {
+                console.error('Error loading order summary:', error);
+                alert('Error loading order. Please try again.');
+                window.location.href = 'cart.html';
+            }
+        }
+        
+        function prefillUserData() {
+            try {
+                const user = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (user) {
+                    if (user.name) {
+                        const nameParts = user.name.split(' ');
+                        document.getElementById('firstName').value = nameParts[0] || '';
+                        document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
+                    }
+                    document.getElementById('email').value = user.email || '';
+                }
+            } catch (error) {
+                console.log('No user data to prefill');
+            }
+        }
+        
+        function setupFormHandling() {
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processOrder();
+            });
+            
+            // Format card number input
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
+                if (formattedValue.length > 19) formattedValue = formattedValue.substring(0, 19);
+                e.target.value = formattedValue;
+            });
+            
+            // Format expiry date
+            document.getElementById('expiryDate').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+        }
+        
+        function processOrder() {
+            // Collect form data
+            const orderInfo = {
+                customer: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value
+                },
+                shipping: {
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zipCode: document.getElementById('zipCode').value
+                },
+                payment: {
+                    cardNumber: document.getElementById('cardNumber').value.slice(-4), // Only store last 4 digits
+                    cardName: document.getElementById('cardName').value
+                },
+                orderData: orderData,
+                orderDate: new Date().toISOString(),
+                orderNumber: 'ORD-' + Date.now()
+            };
+            
+            // Save order to localStorage
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(orderInfo);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Clear cart
+            localStorage.removeItem('cart');
+            
+            // Redirect to confirmation
+            localStorage.setItem('lastOrder', JSON.stringify(orderInfo));
+            window.location.href = 'order-confirmation.html';
+        }
+        
+        console.log('Checkout page loaded successfully');
+    </script>
+    
+    <style>
+        .checkout-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            color: #6c757d;
+        }
+        
+        .step.active {
+            background: #0d6efd;
+            color: white;
+        }
+        
+        .step-arrow {
+            color: #6c757d;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

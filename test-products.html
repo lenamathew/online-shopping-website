@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Products</title>
+</head>
+<body>
+    <h1>Product Test</h1>
+    <div id="debug"></div>
+    <div id="products-display"></div>
+    
+    <script src="js/products.js"></script>
+    <script>
+        // Debug localStorage
+        console.log("Testing products...");
+        
+        // Check if localStorage has products
+        const storedProducts = localStorage.getItem('products');
+        console.log("Stored products:", storedProducts);
+        
+        // Initialize products
+        initializeProducts();
+        
+        // Get all products
+        const products = getAllProducts();
+        console.log("All products:", products);
+        
+        // Display debug info
+        document.getElementById('debug').innerHTML = `
+            <h3>Debug Info:</h3>
+            <p>LocalStorage products: ${localStorage.getItem('products') ? 'EXISTS' : 'NOT FOUND'}</p>
+            <p>Number of products: ${products.length}</p>
+            <p>First product: ${products[0] ? products[0].name : 'NONE'}</p>
+        `;
+        
+        // Display products
+        function displayProducts() {
+            const container = document.getElementById('products-display');
+            container.innerHTML = '<h3>Products:</h3>';
+            
+            products.forEach(product => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+                        <h4>${product.name}</h4>
+                        <p>${product.description}</p>
+                        <p><strong>$${product.price}</strong></p>
+                        <img src="${product.image}" alt="${product.name}" style="width: 100px;">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        displayProducts();
+    </script>
+</body>
+</html>

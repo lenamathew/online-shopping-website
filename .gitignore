@@ -1,0 +1,28 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Log Files
+*.log
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Dependencies (if using npm in future)
+node_modules/
+package-lock.json
+
+# Build Files (if adding build process)
+dist/
+build/

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - ShopEase</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="admin-dashboard.html">
+                <span class="material-icons align-middle">admin_panel_settings</span>
+                Product Management
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="admin-dashboard.html">
+                    <span class="material-icons align-middle">dashboard</span> Dashboard
+                </a>
+                <a class="nav-link" href="add-product.html">
+                    <span class="material-icons align-middle">add</span> Add Product
+                </a>
+                <a class="nav-link" href="shop.html">
+                    <span class="material-icons align-middle">store</span> View Shop
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Product Management -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>
+                            <span class="material-icons align-middle">inventory</span>
+                            Manage Products
+                        </h2>
+                        <a href="add-product.html" class="btn btn-primary">
+                            <span class="material-icons align-middle">add</span>
+                            Add New Product
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><span class="material-icons">search</span></span>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <span id="productCount" class="text-muted">Loading products...</span>
+                </div>
+            </div>
+            
+            <!-- Products Management Table -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <span class="material-icons align-middle">list</span>
+                        All Products
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="emptyMessage" class="text-center py-4" style="display: none;">
+                        <span class="material-icons text-muted" style="font-size: 3rem;">inventory_2</span>
+                        <h5 class="text-muted mt-2">No products found</h5>
+                        <p class="text-muted">Add some products to get started!</p>
+                        <a href="add-product.html" class="btn btn-primary">
+                            <span class="material-icons align-middle">add</span>
+                            Add Your First Product
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="material-icons align-middle text-danger">warning</span>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="deleteProductName"></strong>?</p>
+                    <p class="text-muted">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                        <span class="material-icons align-middle">delete</span>
+                        Delete Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let allProducts = [];
+        let productToDelete = null;
+        
+        // Check admin access and load products
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAccess();
+            loadProducts();
+        });
+        
+        function checkAdminAccess() {
+            try {
+                const user = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (!user || user.email !== 'admin@gmail.com') {
+                    alert('Admin access required. Redirecting to shop page.');
+                    window.location.href = 'shop.html';
+                    return;
+                }
+            } catch (error) {
+                alert('Please login as admin first.');
+                window.location.href = 'shop.html';
+                return;
+            }
+        }
+        
+        function loadProducts() {
+            try {
+                const storedProducts = localStorage.getItem('products');
+                if (storedProducts) {
+                    allProducts = JSON.parse(storedProducts);
+                } else {
+                    allProducts = [];
+                }
+                
+                displayProducts(allProducts);
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('emptyMessage').style.display = 'block';
+            }
+        }
+        
+        function displayProducts(products) {
+            const tableBody = document.getElementById('productsTableBody');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const productCount = document.getElementById('productCount');
+            
+            if (products.length === 0) {
+                emptyMessage.style.display = 'block';
+                tableBody.innerHTML = '';
+                productCount.textContent = 'No products found';
+                return;
+            }
+            
+            emptyMessage.style.display = 'none';
+            productCount.textContent = `Managing ${products.length} products`;
+            
+            tableBody.innerHTML = '';
+            
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${product.image || 'https://via.placeholder.com/60x60?text=No+Image'}" 
+                             alt="${product.name}" 
+                             style="width: 60px; height: 60px; object-fit: cover;" 
+                             class="rounded">
+                    </td>
+                    <td>
+                        <strong>${product.name}</strong><br>
+                        <small class="text-muted">ID: ${product.id}</small>
+                    </td>
+                    <td>
+                        <div style="max-width: 300px;">
+                            ${product.description.length > 80 ? 
+                                product.description.substring(0, 80) + '...' : 
+                                product.description}
+                        </div>
+                    </td>
+                    <td>
+                        <strong class="text-success">$${product.price}</strong>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editProduct(${product.id})" title="Edit Product">
+                                <span class="material-icons" style="font-size: 16px;">edit</span>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${product.id}, '${product.name.replace(/'/g, "\\'")}'))" title="Delete Product">
+                                <span class="material-icons" style="font-size: 16px;">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                displayProducts(allProducts);
+                return;
+            }
+            
+            const filtered = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.id.toString().includes(searchTerm)
+            );
+            
+            displayProducts(filtered);
+        }
+        
+        function editProduct(id) {
+            window.location.href = `edit-product.html?id=${id}`;
+        }
+        
+        function deleteProduct(id, name) {
+            productToDelete = id;
+            document.getElementById('deleteProductName').textContent = name;
+            
+            // Show the delete modal
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        }
+        
+        function confirmDelete() {
+            if (productToDelete) {
+                try {
+                    let products = JSON.parse(localStorage.getItem('products')) || [];
+                    const originalLength = products.length;
+                    
+                    products = products.filter(p => p.id !== productToDelete);
+                    
+                    if (products.length < originalLength) {
+                        localStorage.setItem('products', JSON.stringify(products));
+                        
+                        // Show success message
+                        const alert = document.createElement('div');
+                        alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+                        alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+                        alert.innerHTML = `
+                            <span class="material-icons align-middle">check_circle</span>
+                            Product deleted successfully!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        `;
+                        document.body.appendChild(alert);
+                        
+                        // Remove alert after 3 seconds
+                        setTimeout(() => {
+                            if (alert.parentNode) {
+                                alert.parentNode.removeChild(alert);
+                            }
+                        }, 3000);
+                        
+                        // Reload products
+                        loadProducts();
+                    } else {
+                        alert('Error: Product not found!');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('Error deleting product. Please try again.');
+                }
+                
+                // Hide modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                deleteModal.hide();
+                
+                productToDelete = null;
+            }
+        }
+        
+        console.log('Product management page loaded successfully');
+    </script>
+</body>
+</html>

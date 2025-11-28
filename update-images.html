@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product Images - ShopEase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>🖼️ Update Product Images</h2>
+        
+        <div class="alert alert-info">
+            This will update all products with high-quality real images from Google/Unsplash
+        </div>
+        
+        <button onclick="updateAllImages()" class="btn btn-primary btn-lg mb-3">
+            🎨 Update All Product Images
+        </button>
+        
+        <button onclick="viewLocalStorage()" class="btn btn-info btn-lg mb-3 ms-2">
+            👀 View localStorage
+        </button>
+        
+        <button onclick="goToShop()" class="btn btn-success btn-lg mb-3 ms-2">
+            🛍️ Go to Shop
+        </button>
+        
+        <div id="status"></div>
+        <div id="localStorageView" class="mt-4"></div>
+        <div id="productPreview" class="row mt-4"></div>
+    </div>
+
+    <script>
+        function updateAllImages() {
+            // Get current products
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            // Updated products with real Google/Unsplash images
+            const updatedProducts = [
+                {
+                    id: 1,
+                    name: 'Wireless Headphones',
+                    description: 'Premium noise-cancelling wireless headphones with 30-hour battery life',
+                    price: 129.99,
+                    image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 2,
+                    name: 'Smart Watch',
+                    description: 'Fitness tracking smartwatch with heart rate monitor and GPS',
+                    price: 249.99,
+                    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 3,
+                    name: 'Laptop Backpack',
+                    description: 'Water-resistant backpack with USB charging port and multiple compartments',
+                    price: 49.99,
+                    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 4,
+                    name: 'Bluetooth Speaker',
+                    description: 'Portable wireless speaker with 360° sound and 12-hour battery',
+                    price: 79.99,
+                    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 5,
+                    name: 'Wireless Mouse',
+                    description: 'Ergonomic wireless mouse with precision tracking and long battery life',
+                    price: 29.99,
+                    image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 6,
+                    name: 'USB-C Hub',
+                    description: 'Multi-port USB-C hub with HDMI, USB 3.0, and SD card reader',
+                    price: 39.99,
+                    image: 'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 7,
+                    name: 'Phone Case',
+                    description: 'Durable protective case with shock absorption and slim design',
+                    price: 19.99,
+                    image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                },
+                {
+                    id: 8,
+                    name: 'Desk Lamp',
+                    description: 'LED desk lamp with adjustable brightness and color temperature',
+                    price: 34.99,
+                    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+                }
+            ];
+            
+            // Preserve any additional products (like your Orange Backpack) with existing data
+            const existingProducts = products.filter(p => p.id > 8);
+            
+            // Update existing products with new images, preserve custom products
+            const finalProducts = [...updatedProducts, ...existingProducts];
+            
+            // Save updated products
+            localStorage.setItem('products', JSON.stringify(finalProducts));
+            
+            document.getElementById('status').innerHTML = `
+                <div class="alert alert-success">
+                    ✅ Successfully updated ${finalProducts.length} products with high-quality images!
+                </div>
+            `;
+            
+            // Show preview
+            showProductPreview(finalProducts);
+        }
+        
+        function showProductPreview(products) {
+            const container = document.getElementById('productPreview');
+            container.innerHTML = '<h4>Preview Updated Products:</h4>';
+            
+            products.forEach(product => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 mb-3';
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}" 
+                             style="height: 150px; object-fit: cover;">
+                        <div class="card-body">
+                            <h6 class="card-title">${product.name}</h6>
+                            <p class="text-primary">$${product.price}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+        
+        function viewLocalStorage() {
+            const container = document.getElementById('localStorageView');
+            
+            container.innerHTML = `
+                <h4>📦 localStorage Contents:</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Products:</h5>
+                        <textarea class="form-control" rows="15" readonly>${
+                            JSON.stringify(JSON.parse(localStorage.getItem('products') || '[]'), null, 2)
+                        }</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Cart:</h5>
+                        <textarea class="form-control" rows="6" readonly>${
+                            JSON.stringify(JSON.parse(localStorage.getItem('cart') || '[]'), null, 2)
+                        }</textarea>
+                        
+                        <h5 class="mt-3">User:</h5>
+                        <textarea class="form-control" rows="6" readonly>${
+                            JSON.stringify(JSON.parse(localStorage.getItem('loggedInUser') || 'null'), null, 2)
+                        }</textarea>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function goToShop() {
+            window.open('shop.html', '_blank');
+        }
+        
+        // Auto-check products on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            if (products.length > 0) {
+                document.getElementById('status').innerHTML = `
+                    <div class="alert alert-info">
+                        Found ${products.length} products in localStorage
+                    </div>
+                `;
+                showProductPreview(products);
+            }
+        });
+    </script>
+</body>
+</html>

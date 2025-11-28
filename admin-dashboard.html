@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ShopEase</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="shop.html">
+                <span class="material-icons align-middle">admin_panel_settings</span>
+                Admin Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="shop.html">
+                    <span class="material-icons align-middle">store</span> View Shop
+                </a>
+                <a class="nav-link" href="#" onclick="logout()">
+                    <span class="material-icons align-middle">logout</span> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Admin Dashboard -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="mb-4">
+                        <span class="material-icons align-middle">dashboard</span>
+                        Admin Dashboard
+                    </h2>
+                </div>
+            </div>
+            
+            <!-- Admin Actions -->
+            <div class="row mb-5">
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="material-icons text-primary" style="font-size: 3rem;">add_box</span>
+                            <h5 class="card-title mt-3">Add Product</h5>
+                            <p class="card-text">Add new products to your store</p>
+                            <a href="add-product.html" class="btn btn-primary">
+                                <span class="material-icons align-middle">add</span>
+                                Add Product
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="material-icons text-success" style="font-size: 3rem;">inventory</span>
+                            <h5 class="card-title mt-3">Manage Products</h5>
+                            <p class="card-text">View, edit, and delete products</p>
+                            <a href="manage-products.html" class="btn btn-success">
+                                <span class="material-icons align-middle">edit</span>
+                                Manage Products
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="material-icons text-info" style="font-size: 3rem;">image</span>
+                            <h5 class="card-title mt-3">Update Images</h5>
+                            <p class="card-text">Update product images</p>
+                            <a href="update-images.html" class="btn btn-info">
+                                <span class="material-icons align-middle">photo</span>
+                                Update Images
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <span class="material-icons" style="font-size: 2rem;">inventory_2</span>
+                            <h4 id="totalProducts" class="mt-2">0</h4>
+                            <small>Total Products</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <span class="material-icons" style="font-size: 2rem;">shopping_cart</span>
+                            <h4 id="totalOrders" class="mt-2">0</h4>
+                            <small>Total Orders</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <span class="material-icons" style="font-size: 2rem;">attach_money</span>
+                            <h4 id="totalRevenue" class="mt-2">$0</h4>
+                            <small>Total Revenue</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center">
+                            <span class="material-icons" style="font-size: 2rem;">trending_up</span>
+                            <h4 id="avgOrderValue" class="mt-2">$0</h4>
+                            <small>Avg Order Value</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Orders -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <span class="material-icons align-middle">receipt_long</span>
+                                Recent Orders
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentOrders">
+                                <!-- Recent orders will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Check admin access and load dashboard data
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAccess();
+            loadDashboardData();
+        });
+        
+        function checkAdminAccess() {
+            try {
+                const user = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (!user || user.email !== 'admin@gmail.com') {
+                    alert('Admin access required. Please login as admin.');
+                    window.location.href = 'shop.html';
+                    return;
+                }
+            } catch (error) {
+                alert('Please login as admin to access the dashboard.');
+                window.location.href = 'shop.html';
+                return;
+            }
+        }
+        
+        function loadDashboardData() {
+            try {
+                // Load products
+                const products = JSON.parse(localStorage.getItem('products')) || [];
+                document.getElementById('totalProducts').textContent = products.length;
+                
+                // Load orders
+                const orders = JSON.parse(localStorage.getItem('orders')) || [];
+                document.getElementById('totalOrders').textContent = orders.length;
+                
+                // Calculate revenue
+                let totalRevenue = 0;
+                orders.forEach(order => {
+                    if (order.orderData && order.orderData.total) {
+                        totalRevenue += order.orderData.total;
+                    }
+                });
+                document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+                
+                // Calculate average order value
+                const avgOrderValue = orders.length > 0 ? totalRevenue / orders.length : 0;
+                document.getElementById('avgOrderValue').textContent = `$${avgOrderValue.toFixed(2)}`;
+                
+                // Load recent orders
+                loadRecentOrders(orders);
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+        
+        function loadRecentOrders(orders) {
+            const container = document.getElementById('recentOrders');
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<p class="text-muted">No orders yet.</p>';
+                return;
+            }
+            
+            // Sort orders by date (newest first) and take last 5
+            const recentOrders = orders
+                .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
+                .slice(0, 5);
+            
+            let html = `
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            recentOrders.forEach(order => {
+                const orderDate = new Date(order.orderDate).toLocaleDateString();
+                const itemCount = order.orderData.items.length;
+                const total = order.orderData.total.toFixed(2);
+                
+                html += `
+                    <tr>
+                        <td><strong>${order.orderNumber}</strong></td>
+                        <td>${order.customer.firstName} ${order.customer.lastName}</td>
+                        <td>${orderDate}</td>
+                        <td>${itemCount} items</td>
+                        <td>$${total}</td>
+                        <td><span class="badge bg-success">Confirmed</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            alert('Logged out successfully!');
+            window.location.href = 'shop.html';
+        }
+        
+        console.log('Admin dashboard loaded successfully');
+    </script>
+</body>
+</html>
